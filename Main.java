@@ -64,13 +64,6 @@ public class Main {
     }
 
     public void saveSpreadsheet(){
-        System.out.println("Spreadsheet name?");
-        String ssName = "";
-        try {
-            ssName = reader.readLine();
-        } catch (Exception e) {
-            System.out.println("Error reading line");
-        }
         System.out.println("File name?");
         String fileName = "";
         try {
@@ -78,8 +71,8 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Error reading line");
         }
-        if(Manager.saveSpreadsheet(ssName,fileName)==true){
-            System.out.println("Spreadsheet " + ssName + " is saved to " + fileName);
+        if(Manager.saveSpreadsheet(fileName)==true){
+            System.out.println("Spreadsheet is saved to " + fileName);
         }else{
             System.out.println("Spreadsheet name not found or the file already exist");
         }
@@ -145,7 +138,14 @@ public class Main {
         } catch (Exception e) {
             System.out.println("Error reading line");
         }
-        if(Manager.createSpreadsheet(ssName)==true){
+        System.out.println("File name?");
+        String fileName = "";
+        try {
+            fileName = reader.readLine();
+        } catch (Exception e) {
+            System.out.println("Error reading line");
+        }
+        if(Manager.createSpreadsheet(ssName,fileName)==true){
             System.out.println("Spreadsheet " + ssName + " is created");
         }else{
             System.out.println("The spreadsheet already exist");

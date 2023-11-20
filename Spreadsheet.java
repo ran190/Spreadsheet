@@ -10,16 +10,15 @@ public class Spreadsheet {
     private TreeMap<Integer, TreeMap<Integer, Cell>> spreadsheet;
     private String name;
     private String fileName;
-
-    public Spreadsheet(String name){
-        spreadsheet = new TreeMap<>();
-        this.name = name;
-    }
+    private int maxColumn;
+    private int maxRow;
 
     public Spreadsheet(String name, String fileName){
         spreadsheet = new TreeMap<>();
         this.name = name;
         this.fileName = fileName;
+        this.maxColumn = 0;
+        this.maxRow = 0;
     }
 
     public String getName(){
@@ -43,38 +42,44 @@ public class Spreadsheet {
                 for (int col = 0; col < cellContents.length; col++) {
                     String content = cellContents[col].trim();
                     if (!content.isEmpty()) {
-                        printCell(rowNumber, col);
+                        System.out.print(printCell(rowNumber, col));
                         System.out.print(";");
                     }
                 }
                 rowNumber++;
                 System.out.println();
             }
-            System.out.println("Spreadsheet loaded from " + filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void saveSpreadsheet(String filename){
+    public void saveSpreadsheet(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (Map.Entry<Integer, TreeMap<Integer, Cell>> rowEntry : spreadsheet.entrySet()) {
-                TreeMap<Integer, Cell> rowData = rowEntry.getValue();
-    
-                for (Map.Entry<Integer, Cell> cellEntry : rowData.entrySet()) {
-                    Cell cell = cellEntry.getValue();
-                    String content = cell.getContent();
-    
-                    writer.write(content + ";");
+            for (int i = 0; i <= maxRow; i++) {
+                for (int j = 0; j <= maxColumn; j++) {
+                    String content = printCell(i, j);
+                    if (content == null) {
+                        //do nothing
+                    } else {
+                        writer.write(content);
+                    }
+                    writer.write(";");
                 }
                 writer.newLine();
-            }
+            } 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
+    
     public void editCell(Integer row, Integer column, String value){
+        if (row > maxRow){
+            maxRow = row;
+        }
+        if (column > maxColumn){
+            maxColumn = column;
+        }
         int type = cellType(value);
         if (type == 1){
             //how to make sure is from numCell

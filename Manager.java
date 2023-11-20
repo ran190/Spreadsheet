@@ -8,9 +8,9 @@ public class Manager {
         sList = new ArrayList<>();
     }
 
-    public boolean createSpreadsheet(String name){
-        Spreadsheet ss = new Spreadsheet(name);
-        if (searchSpreadsheet(sList, name)==null){
+    public boolean createSpreadsheet(String name,String fileName){
+        if (searchFileSpreadsheet(sList, fileName)==null){
+            Spreadsheet ss = new Spreadsheet(name,fileName);
             sList.add(ss);
             return true;
         }else{
@@ -28,13 +28,9 @@ public class Manager {
         }
     }
 
-    public boolean saveSpreadsheet(String name, String fileName){
-        if (searchFileSpreadsheet(sList, fileName)!=null){
-            return false;
-        }
-        Spreadsheet ss = searchSpreadsheet(sList, name);
+    public boolean saveSpreadsheet(String fileName){
+        Spreadsheet ss = searchFileSpreadsheet(sList, fileName);
         if (ss!=null) {
-            ss.setFileName(fileName);
             ss.saveSpreadsheet(fileName);
             return true;
         } else {
