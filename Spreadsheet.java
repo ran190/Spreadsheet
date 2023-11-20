@@ -56,8 +56,8 @@ public class Spreadsheet {
 
     public void saveSpreadsheet(String filename) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename))) {
-            for (int i = 0; i <= maxRow; i++) {
-                for (int j = 0; j <= maxColumn; j++) {
+            for (int i = 1; i <= maxRow; i++) {
+                for (int j = 1; j <= maxColumn; j++) {
                     String content = printCell(i, j);
                     if (content == null) {
                         //do nothing
