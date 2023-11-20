@@ -30,6 +30,7 @@ public class Main {
         System.out.println("3. Edit cell");
         System.out.println("4. Print cell");
         System.out.println("5. Create spreadsheet");
+        System.out.println("6. Print spreadsheet list");       
         System.out.println("0. Exit");
         String str="";
         try {
@@ -43,6 +44,7 @@ public class Main {
             case "3": editCell(); break;
             case "4": printCell(); break;
             case "5": createSpreadsheet();
+            case "6": printList();break;
             case "0": end=true; break;
             default:
         }
@@ -149,6 +151,19 @@ public class Main {
             System.out.println("Spreadsheet " + ssName + " is created");
         }else{
             System.out.println("The spreadsheet already exist");
+        }
+    }
+
+    public void printList(){
+        System.out.println("Spreadsheet List:");
+        System.out.println("-----------------");
+    
+        for (Spreadsheet spreadsheet : Manager.sList) {
+            System.out.println("Spreadsheet Name: " + spreadsheet.getName());
+            System.out.println("File Name: " + spreadsheet.getFileName());
+            // You can add more information to print if needed
+            
+            System.out.println("-----------------");
         }
     }
 }
