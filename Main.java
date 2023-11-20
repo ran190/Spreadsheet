@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.TreeMap;
 
@@ -16,9 +17,30 @@ public class Main {
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private boolean end = false;
     public void run() {
-        boolean end = false;
         while(!end) {
             menu();
+        }
+        //delete file
+        deleteUnfinishedFiles();
+    }
+
+    private void deleteUnfinishedFiles() {
+        File currentDirectory = new File(".");
+        File[] files = currentDirectory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                String fileName = file.getName();
+                if (!fileName.endsWith(".java") && !fileName.endsWith(".pdf")&& !fileName.endsWith(".md")) {
+                    // Delete the file
+                    boolean deleted = file.delete();
+                    if (deleted) {
+                        System.out.println("Deleted file: " + fileName);
+                    } else {
+                        System.out.println("Failed to delete file: " + fileName);
+                    }
+                }
+            }
         }
     }
 

@@ -37,11 +37,12 @@ public class Spreadsheet {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] cellContents = line.split(";");
+                line = line.replaceAll(";$", "");
+                String[] cellContents = line.split(";",-1); 
                 for (int col = 0; col < cellContents.length; col++) {
                     String content = cellContents[col].trim();
                     if (content.isEmpty()) {
-                        System.out.print("null");
+                        System.out.print("null ");
                     } else {
                         System.out.print(content.replace(";", " ") );
                     }
