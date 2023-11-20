@@ -36,17 +36,16 @@ public class Spreadsheet {
     public void loadSpreadsheet(String filename){
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
-            int rowNumber = 0;
             while ((line = reader.readLine()) != null) {
                 String[] cellContents = line.split(";");
                 for (int col = 0; col < cellContents.length; col++) {
                     String content = cellContents[col].trim();
-                    if (!content.isEmpty()) {
-                        System.out.print(printCell(rowNumber, col));
-                        System.out.print(";");
+                    if (content.isEmpty()) {
+                        System.out.print("null");
+                    } else {
+                        System.out.print(content.replace(";", " ") );
                     }
                 }
-                rowNumber++;
                 System.out.println();
             }
         } catch (IOException e) {
