@@ -1,6 +1,11 @@
 import java.util.Stack;
+
+import parser.AbstractFactory;
+import parser.ExpressionBuilder;
+
 import java.util.Queue;
 import java.util.LinkedList;
+import java.util.List;
 
 public class formulasCell extends Cell {
     protected String value;
@@ -17,67 +22,27 @@ public class formulasCell extends Cell {
     }
 
     public String getValue() {
-        return convertToRPN(value);
-    }
+        AbstractFactory factory;
+        ExpressionBuilder builder;
 
-    private String convertToRPN(String expression) {
-        StringBuilder outputQueue = new StringBuilder();
-        Stack<Character> operatorStack = new Stack<>();
+        String express = getContent().substring(1);
 
-        for (int i = 0; i < expression.length(); i++) {
-            char token = expression.charAt(i);
+        factory = new Factory();
+        builder = new ExpressionBuilder(factory);
 
-            if (Character.isDigit(token)) {
-                outputQueue.append(token);
-            } else if (token == '(') {
-                operatorStack.push(token);
-            } else if (token == ')') {
-                while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
-                    outputQueue.append(operatorStack.pop());
-                }
-                if (!operatorStack.isEmpty() && operatorStack.peek() == '(') {
-                    operatorStack.pop(); // Discard the '('
-                }
-            } else if (isOperator(token)) {
-                while (!operatorStack.isEmpty() && !isLeftParenthesis(operatorStack.peek())
-                        && (getPrecedence(operatorStack.peek()) > getPrecedence(token)
-                                || (getPrecedence(operatorStack.peek()) == getPrecedence(token)
-                                        && isLeftAssociative(token)))) {
-                    outputQueue.append(operatorStack.pop());
-                }
-                operatorStack.push(token);
-            } else if (token == ',') {
-                while (!operatorStack.isEmpty() && operatorStack.peek() != '(') {
-                    outputQueue.append(operatorStack.pop());
-                }
-            }
+        builder.buildExpression(express);
+
+        // Returns the expression
+        Node expression = (Node)builder.getExpression();
+
+        if (expression != null) {
+            return Double.toString(expression.getValue());
+        } else {
+            throw new IllegalStateException("Expression not yet built");
         }
 
-        while (!operatorStack.isEmpty()) {
-            outputQueue.append(operatorStack.pop());
-        }
-
-        return outputQueue.toString();
+        // Returns the list of cell references... in the case empty
+        //List<String> references = builder.getCellReferences();
     }
 
-    private boolean isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/';
-    }
-
-    private boolean isLeftAssociative(char operator) {
-        return operator == '+' || operator == '-';
-    }
-
-    private boolean isLeftParenthesis(char c) {
-        return c == '(';
-    }
-
-    private int getPrecedence(char operator) {
-        if (operator == '+' || operator == '-') {
-            return 1;
-        } else if (operator == '*' || operator == '/') {
-            return 2;
-        }
-        return 0; // Default precedence for non-operators
-    }
 }

@@ -93,7 +93,18 @@ public class Spreadsheet {
         }
     }
 
-    public String printCell(Integer row, Integer column){
+    public String printCell(Integer row, Integer column) {
+        TreeMap<Integer, Cell> rowData = spreadsheet.get(row);
+        if (rowData != null) {
+            Cell cell = rowData.get(column);
+            if (cell != null) {
+                return cell.getValue();
+            }
+        }
+        return null;
+    }
+
+    public String printCellContent(Integer row, Integer column){
         TreeMap<Integer, Cell> rowData = spreadsheet.get(row);
         if (rowData != null) {
             Cell cell = rowData.get(column);

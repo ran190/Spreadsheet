@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\DELL\\Downloads\\expression-factory.jar",
+        "f:\\expression-builder-example-main\\lib\\expression-factory.jar"
+    ]
+}

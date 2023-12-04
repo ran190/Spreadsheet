@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,13 +19,33 @@ public class Manager {
         }
     }
 
-    public boolean loadSpreadsheet(String fileName){
+    public boolean loadSpreadsheet(String fileName) {
         Spreadsheet ss = searchFileSpreadsheet(sList, fileName);
-        if (ss!=null) {
+    
+        if (ss != null) {
             ss.loadSpreadsheet(fileName);
             return true;
         } else {
-            return false;
+            // The file doesn't exist in the sList
+            File currentDirectory = new File(".");
+            File[] files = currentDirectory.listFiles();
+    
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile() && file.getName().equals(fileName)) {
+                        // Create ss and add it to the sList
+                        Spreadsheet ssnew = new Spreadsheet(fileName, fileName);
+                        sList.add(ssnew);
+                        ssnew.loadSpreadsheet(fileName);
+                        return true;
+                    }
+                }
+                // File not found in the directory
+                return false;
+            } else {
+                // Unable to list files in the directory
+                return false;
+            }
         }
     }
 
