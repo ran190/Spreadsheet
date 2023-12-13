@@ -7,7 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Spreadsheet {    
-    private TreeMap<Integer, TreeMap<Integer, Cell>> spreadsheet;
+    private static TreeMap<Integer, TreeMap<Integer, Cell>> spreadsheet;
     private String name;
     private String fileName;
     private int maxColumn;
@@ -44,7 +44,7 @@ public class Spreadsheet {
                     if (content.isEmpty()) {
                         System.out.print("null ");
                     } else {
-                        System.out.print(content.replace(";", " ") );
+                        System.out.print(content.replace(";", "  ") );
                     }
                 }
                 System.out.println();
@@ -104,7 +104,7 @@ public class Spreadsheet {
         return null;
     }
 
-    public String printCellContent(Integer row, Integer column){
+    public static String printCellContent(Integer row, Integer column){
         TreeMap<Integer, Cell> rowData = spreadsheet.get(row);
         if (rowData != null) {
             Cell cell = rowData.get(column);
